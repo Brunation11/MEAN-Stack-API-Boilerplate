@@ -1,0 +1,19 @@
+{
+  "name": "mean_stack_api_boilerplate",
+  "version": "1.0.0",
+  "description": "A MEAN Stack API Boilerplate",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "lodash": "^4.5.1",
+    "morgan": "^1.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "\"\"",
+    "start": "node server.js"
+  },
+  "author": "brunation11",
+  "license": "ISC"
+}
