@@ -11,7 +11,7 @@ var lions = [];
 var id = 0;
 
 app.get('/lions', function(req, res) {
-  req.json(lions);
+  res.json(lions);
 });
 
 app.get('/lions/:id', function(req, res) {
@@ -24,6 +24,7 @@ app.post('/lions', function(req, res) {
   id++;
   lion.id = id+'';
   lions.push(lion);
+  res.json(lion);
 });
 
 app.put('/lions/:id', function(req, res) {
@@ -31,7 +32,7 @@ app.put('/lions/:id', function(req, res) {
   if (update.id) {
     delete update.id;
   }
-  var lion = _.findIndex('lions', {id: req.params.id});
+  var lion = _.findIndex(lions, {id: req.params.id});
   if (!lions[lion]) {
     res.send();
   } else {
@@ -41,9 +42,14 @@ app.put('/lions/:id', function(req, res) {
 });
 
 app.delete('/lions/:id', function(req, res) {
-  var lion = _.remove(lions, function(x) {
-    return x.id == req.params.id;
-  })
+  var lion = _.findIndex(lions, {id: req.params.id});
+  if(!lions[lion]) {
+    res.send();
+  } else {
+    var deletedLion = lions[lion];
+    lions.splice(lion, 1);
+    res.json(deletedLion);
+  }
 });
 
 app.listen(3000, function() {
