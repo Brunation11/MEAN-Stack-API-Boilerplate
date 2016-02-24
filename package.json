@@ -9,10 +9,14 @@
     "lodash": "^4.5.1",
     "morgan": "^1.7.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "colors": "^1.1.2",
+    "supertest": "^1.2.0"
+  },
   "scripts": {
     "test": "mocha server/spec.js",
-    // "start": "node server.js"
+    "start": "nodemon index.js"
   },
   "author": "brunation11",
   "license": "ISC"
