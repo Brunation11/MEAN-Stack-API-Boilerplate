@@ -22,44 +22,43 @@ tigerRouter.param('id', function(req, res, next, id) {
   }
 });
 
-tigerRouter.get('/', function(req, res) {
-  res.json(tigers);
-});
+tigerRouter.route('/')
+  .get(function(req, res) {
+    res.json(tigers);
+  })
+  .post(updatedId, function(req, res) {
+    var tiger = req.body;
+    tigers.push(tiger);
+    res.json(tiger);
+  });
 
-tigerRouter.post('/', updatedId, function(req, res) {
-  var tiger = req.body;
-  tigers.push(tiger);
-  res.json(tiger);
-});
-
-tigerRouter.get('/:id', function(req, res) {
-  var tiger = req.tiger;
-  res.json(tiger||{});
-});
-
-tigerRouter.put('/:id', function(req, res) {
-  var update = req.body;
-  if(update.id) {
-    delete update.id;
-  }
-  var tiger = _.find(tigers, {id: req.params.id});
-  if(!tigers[tiger]) {
-    res.send();
-  } else {
-    var updatedTiger = _.assign(tigers[tiger], update);
-    res.json(updatedTiger);
-  }
-});
-
-tigerRouter.delete('/:id', function(req, res) {
-  var tiger = _.findIndex(tigers, {id: req.tiger.id});
-  if(!tigers[tiger]) {
-    res.send();
-  } else {
-  var deletedtiger = tigers[tiger];
-  tigers.splice(tiger, 1);
-  res.json(deletedTiger);
-  }
-});
+tigerRouter.route('/:id')
+  .get(function(req, res) {
+    var tiger = req.tiger;
+    res.json(tiger||{});
+  })
+  .put(function(req, res) {
+    var update = req.body;
+    if(update.id) {
+      delete update.id;
+    }
+    var tiger = _.find(tigers, {id: req.params.id});
+    if(!tigers[tiger]) {
+      res.send();
+    } else {
+      var updatedTiger = _.assign(tigers[tiger], update);
+      res.json(updatedTiger);
+    }
+  })
+  .delete(function(req, res) {
+    var tiger = _.findIndex(tigers, {id: req.tiger.id});
+    if(!tigers[tiger]) {
+      res.send();
+    } else {
+    var deletedtiger = tigers[tiger];
+    tigers.splice(tiger, 1);
+    res.json(deletedTiger);
+    }
+  });
 
 module.exports = tigerRouter;
