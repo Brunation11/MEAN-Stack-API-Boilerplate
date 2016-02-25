@@ -1,25 +1,12 @@
-var bodyParser = require('body-parser');
-var _ = require('lodash');
-var morgan = require('morgan');
 var express = require('express');
 var app = express();
+var apiRouter = require('./api/api');
+var err = require('./middleware/err');
 
-var lionRouter = require('./lions');
-var tigerRouter = require('./tigers');
+require('./middleware/appMiddleware')(app);
 
-app.use(morgan('dev'));
-app.use(express.static('client'));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+app.use('/api', apiRouter);
 
-app.use('/lions', lionRouter);
-app.use('/tigers', tigerRouter);
-
-app.use(function(err, req, res, next) {
-  if(err) {
-    console.log(err);
-    res.status(500).send(err);
-  }
-});
+app.use(err());
 
 module.exports = app;
