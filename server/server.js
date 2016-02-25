@@ -9,7 +9,7 @@ var tigerRouter = require('./tigers');
 
 app.use(morgan('dev'));
 app.use(express.static('client'));
-app.use(bodyParser.urlencoded({extend: true}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use('/lions', lionRouter);
@@ -17,7 +17,7 @@ app.use('/tigers', tigerRouter);
 
 app.use(function(err, req, res, next) {
   if(err) {
-    console.log(err.message);
+    console.log(err);
     res.status(500).send(err);
   }
 });

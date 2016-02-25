@@ -1,5 +1,6 @@
 var express = require('express');
 var tigerRouter = express.Router();
+var _ = require('lodash');
 
 var tigers = [];
 var id = 0;
@@ -39,10 +40,10 @@ tigerRouter.route('/:id')
   })
   .put(function(req, res) {
     var update = req.body;
-    if(update.id) {
+    if (update.id) {
       delete update.id;
     }
-    var tiger = _.find(tigers, {id: req.params.id});
+    var tiger = _.findIndex(tigers, {id: req.params.id});
     if(!tigers[tiger]) {
       res.send();
     } else {
@@ -51,11 +52,11 @@ tigerRouter.route('/:id')
     }
   })
   .delete(function(req, res) {
-    var tiger = _.findIndex(tigers, {id: req.tiger.id});
+    var tiger = _.findIndex(tigers, {id: req.params.id});
     if(!tigers[tiger]) {
       res.send();
     } else {
-    var deletedtiger = tigers[tiger];
+    var deletedTiger = tigers[tiger];
     tigers.splice(tiger, 1);
     res.json(deletedTiger);
     }
