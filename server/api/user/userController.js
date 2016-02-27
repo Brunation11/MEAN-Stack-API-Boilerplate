@@ -2,26 +2,30 @@ var UserModel = require('./userModel');
 var _ = require('lodash');
 
 exports.params = function(req, res, next, id) {
-  UserModel.findById(id, function(err, user) {
-    if (err) {
-      next(err);
-    } else if (!user) {
-      next(new Error('User not found'));
-    } else {
-      req.user = user;
-      next();
-    }
-  })
+  UserModel.findById(id)
+    .populate('posts')
+    .exec(function(err, user) {
+      if (err) {
+        next(err);
+      } else if (!user) {
+        next(new Error('User not found'));
+      } else {
+        req.user = user;
+        next();
+      }
+    })
 };
 
 exports.get = function(req, res, next) {
-  UserModel.find({}, function(err, users) {
-    if (err) {
-      next(err);
-    } else {
-      res.json(users);
-    }
-  })
+  UserModel.find({})
+    .populate('posts')
+    .exec(function(err, users) {
+      if (err) {
+        next(err);
+      } else {
+        res.json(users);
+      }
+    })
 };
 
 exports.getOne = function(req, res, next) {
