@@ -13,7 +13,7 @@ exports.params = function(req, res, next, id) {
         req.user = user;
         next();
       }
-    })
+    });
 };
 
 exports.get = function(req, res, next) {
@@ -25,7 +25,7 @@ exports.get = function(req, res, next) {
       } else {
         res.json(users);
       }
-    })
+    });
 };
 
 exports.getOne = function(req, res, next) {
@@ -43,18 +43,18 @@ exports.put = function(req, res, next) {
     } else {
       res.json(user);
     }
-  })
+  });
 };
 
 exports.post = function(req, res, next) {
-  var user = new PostModel(req.body);
+  var user = new UserModel(req.body);
   user.save(function(err, user) {
     if (err) {
       next(err);
     } else {
       res.json(user);
     }
-  })
+  });
 };
 
 exports.delete = function(req, res, next) {
@@ -64,5 +64,5 @@ exports.delete = function(req, res, next) {
     } else {
       res.json(user);
     }
-  })
+  });
 };
