@@ -11,7 +11,7 @@ exports.params = function(req, res, next, id) {
       req.category = category;
       next();
     }
-  })
+  });
 };
 
 exports.get = function(req, res, next) {
@@ -21,7 +21,7 @@ exports.get = function(req, res, next) {
     } else {
       res.json(categories);
     }
-  })
+  });
 };
 
 exports.getOne = function(req, res, next) {
@@ -39,7 +39,7 @@ exports.put = function(req, res, next) {
     } else {
       res.json(category);
     }
-  })
+  });
 };
 
 exports.post = function(req, res, next) {
@@ -50,7 +50,7 @@ exports.post = function(req, res, next) {
     } else {
       res.json(category);
     }
-  })
+  });
 };
 
 exports.delete = function(req, res, next) {
@@ -60,5 +60,5 @@ exports.delete = function(req, res, next) {
     } else {
       res.json(category);
     }
-  })
+  });
 };
