@@ -4,7 +4,7 @@ var apiRouter = require('./api/api');
 var config = require('./config/config');
 var err = require('./middleware/err');
 
-require('mongoose').connect(config.db.url)
+require('mongoose').connect(config.db.url);
 
 require('./middleware/appMiddleware')(app);
 
