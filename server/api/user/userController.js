@@ -1,5 +1,6 @@
 var UserModel = require('./userModel');
 var _ = require('lodash');
+var signToken = require('../../auth/auth');
 
 exports.params = function(req, res, next, id) {
   UserModel.findById(id)
@@ -52,7 +53,8 @@ exports.post = function(req, res, next) {
     if (err) {
       next(err);
     } else {
-      res.json(user);
+      var token = signToken(user._id);
+      res.json({token: token});
     }
   });
 };
