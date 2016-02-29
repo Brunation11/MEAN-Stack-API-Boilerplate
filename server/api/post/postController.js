@@ -3,7 +3,8 @@ var _ = require('lodash');
 
 exports.params = function(req, res, next, id) {
   PostModel.findById(id)
-    .populate('author categories')
+    .populate('author', 'username')
+    .populate('categories')
     .exec(function(err, post) {
       if (err) {
         next(err);
@@ -18,7 +19,8 @@ exports.params = function(req, res, next, id) {
 
 exports.get = function(req, res, next) {
   PostModel.find({})
-    .populate('author categories')
+    .populate('author', 'username')
+    .populate('categories')
     .exec(function(err, posts) {
       if (err) {
         next(err);
@@ -28,7 +30,7 @@ exports.get = function(req, res, next) {
     });
 };
 
-exports.getOne = function(req, res, next) {
+exports.getOne = function(req, res) {
   var post = req.post;
   res.json(post);
 };
@@ -43,18 +45,19 @@ exports.put = function(req, res, next ) {
     } else {
       res.json(post);
     }
-  })
+  });
 };
 
 exports.post = function(req, res, next) {
   var post = new PostModel(req.body);
+  post.auth = req.user._id;
   post.save(function(err, post) {
     if (err) {
       next(err);
     } else {
       res.json(post);
     }
-  })
+  });
 };
 
 exports.delete = function(req, res, next) {
@@ -64,5 +67,5 @@ exports.delete = function(req, res, next) {
     } else {
       res.json(post);
     }
-  })
+  });
 };
