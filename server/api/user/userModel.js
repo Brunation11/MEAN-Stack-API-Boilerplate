@@ -21,9 +21,12 @@ var UserSchema = new Schema({
 });
 
 UserSchema.pre('save', function(next) {
-  if(!this.isModified('password')) return next();
-  this.password = this.encryptPassword(this.password);
-  next();
+  if (!this.isModified('password')) {
+    next();
+  } else {
+    this.password = this.encryptPassword(this.password);
+    next();
+  }
 });
 
 UserSchema.methods = {
@@ -37,6 +40,11 @@ UserSchema.methods = {
       var salt = bcrypt.genSaltSync(10);
       return bcrypt.hashSync(plainTextPassword, salt);
     }
+  },
+  toJson: function() {
+    var obj = this.toObject();
+    delete obj.password;
+    return obj;
   }
 };
 

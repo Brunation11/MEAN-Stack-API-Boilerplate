@@ -1,9 +1,10 @@
 var UserModel = require('./userModel');
 var _ = require('lodash');
-var signToken = require('../../auth/auth');
+var signToken = require('../../auth/auth').signToken;
 
 exports.params = function(req, res, next, id) {
   UserModel.findById(id)
+    .select('-password')
     .populate('posts')
     .exec(function(err, user) {
       if (err) {
@@ -19,19 +20,22 @@ exports.params = function(req, res, next, id) {
 
 exports.get = function(req, res, next) {
   UserModel.find({})
+    .select('-password')
     .populate('posts')
     .exec(function(err, users) {
       if (err) {
         next(err);
       } else {
+        users = users.map(function(user) {
+          return user.toJson();
+        });
         res.json(users);
       }
     });
 };
 
-exports.getOne = function(req, res, next) {
-  var user = req.user;
-  res.json(user);
+exports.getOne = function(req, res) {
+  res.json(req.user.toJson());
 };
 
 exports.put = function(req, res, next) {
@@ -42,7 +46,7 @@ exports.put = function(req, res, next) {
     if (err) {
       next(err);
     } else {
-      res.json(user);
+      res.json(user.toJson());
     }
   });
 };
@@ -64,7 +68,11 @@ exports.delete = function(req, res, next) {
     if (err) {
       next(err);
     } else {
-      res.json(user);
+      res.json(user.toJson());
     }
   });
+};
+
+exports.me = function(req, res) {
+  res.json(req.user.toJson());
 };
