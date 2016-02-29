@@ -24,7 +24,7 @@ exports.get = function(req, res, next) {
   });
 };
 
-exports.getOne = function(req, res, next) {
+exports.getOne = function(req, res) {
   var category = req.category;
   res.json(category);
 };
