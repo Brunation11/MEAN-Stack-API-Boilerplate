@@ -13,12 +13,12 @@ require('./middleware/appMiddleware')(app);
 app.use('/api', apiRouter);
 app.use('/auth', authRouter);
 app.use(function(err, req, res, next) {
-  if(err.name === 'UnauthorizedError') {
+  if(err.name === 'UnauthorizedError')  {
     res.status(400).send('Invalid token');
-    return;
+  } else {
+    logger.error(err.stack);
+    res.status(500).send('Something broke!');
   }
-  logger.error(err.stack);
-  res.status(500).send('Something broke!');
 });
 
 
