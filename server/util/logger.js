@@ -12,15 +12,27 @@ var logger = {
     var args = _.toArray(arguments)
       .map(function(arg) {
         if(typeof arg === 'object') {
-          var string = JSON.stringify(arg, 2);
-          return string.magenta;
+          var string = JSON.stringify(arg, null, 2);
+          return string.cyan;
         } else {
           arg+='';
-          return arg.magenta;
+          return arg.cyan;
         }
       });
     consoleLog.apply(console, args);
+  },
+
+  error: function() {
+    var args = _.toArray(arguments)
+      .map(function(arg) {
+        arg = arg.stack || arg;
+        var name = arg.name || '[ERROR]';
+        var log = name.yellow + ' ' + arg.red;
+        return log;
+      });
+    console.Log.apply(console, args);
   }
+
 };
 
 module.exports = logger;
